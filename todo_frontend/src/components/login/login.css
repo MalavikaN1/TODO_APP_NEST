@@ -1,0 +1,27 @@
+.main{
+    text-align: center;
+}
+
+
+
+.loginBox{
+    width:max-content;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    margin-top: 8%;
+    padding: 3%;
+    padding-top: 1%;
+    background-color: aliceblue;
+    border-radius: 5%;
+    border: 2px black solid;
+
+}
+.box
+{
+    padding: 1%;
+    margin: 3%; 
+}
+.button{
+   margin-top: 7%;
+}
