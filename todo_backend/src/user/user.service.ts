@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { encodePassword } from 'src/utils/bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { EmailUserDto } from './dto/email-user.dto';
@@ -14,7 +15,8 @@ export class UserService {
   ) {}
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = this.userRepo.create(createUserDto);
+      const password = encodePassword(createUserDto.password);
+      const user = this.userRepo.create({ ...createUserDto, password });
       await this.userRepo.save(user);
       return { flag: true };
     } catch (e) {
@@ -30,11 +32,14 @@ export class UserService {
     return this.userRepo.findOneBy({ id: id });
   }
 
-  async findEmail(email: string, password: string) {
-    const userData = await this.userRepo.findOneBy({ email: email });
-    if (!User) return false;
-    if (userData.password != password) return false;
-    return { status: true, id: userData.id, userName: userData.userName };
+  async findEmail(email: string) {
+    const userData = await this.userRepo.findOne({
+      where: { email: email },
+    });
+    return userData;
+    // status: true,
+    // id: userData[0].id,
+    // userName: userData[0].userName,
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

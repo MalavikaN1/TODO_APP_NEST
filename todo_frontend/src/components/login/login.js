@@ -11,22 +11,28 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const authenticate = async () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email, password: password }),
-    };
-    const userData = await fetch("user/email", requestOptions);
-    const res = await userData.json();
-    console.log(res);
+    if(password!==''||email!=='')
+    {
 
-    localStorage.setItem("userId", res.id);
-    localStorage.setItem("userName",res.userName);
-    if (res.status === true) {
-      localStorage.setItem("isAuthenticated", true);
-      navigate("/user");
-    } else {
-      alert("Invalid Login Credentials");
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: password }),
+      };
+      const userData = await fetch("user/email", requestOptions);
+      const res = await userData.json();
+      console.log(res)
+      if (res.status === true) {
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("userId", res.id);
+        localStorage.setItem("userName",res.userName);
+        navigate("/user");
+      } else {
+        alert("Invalid Login Credentials");
+      }
+    }
+    else{
+        alert("Please Enter Values");
     }
   };
 

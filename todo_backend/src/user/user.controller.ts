@@ -10,11 +10,15 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthService } from 'src/auth/auth.service';
 // import { EmailUserDto } from './dto/email-user.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -33,7 +37,7 @@ export class UserController {
 
   @Post('email')
   findEmail(@Body('email') email: string, @Body('password') password: string) {
-    return this.userService.findEmail(email, password);
+    return this.authService.validateUser(email, password);
   }
 
   @Patch(':id')

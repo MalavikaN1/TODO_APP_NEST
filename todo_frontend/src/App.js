@@ -6,6 +6,11 @@ import Notfound from "./components/notfound/notfound";
 import SignUp from "./components/signup/signup";
 
 
+window.addEventListener('storage', () => {
+  localStorage.clear();
+ window.location.reload();
+});
+
 function App() {
 if(!localStorage.getItem("isAuthenticated"))
   window.localStorage.setItem('isAuthenticated',false);
